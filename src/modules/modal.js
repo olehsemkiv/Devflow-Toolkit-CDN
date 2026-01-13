@@ -9,9 +9,10 @@
     modal: "[data-rs-modal]",
     open: "[data-rs-modal-open]",
     close: "[data-rs-modal-close]",
-    overlay: "[data-rs-modal-overlay], .modal_overlay",
-    content: "[data-rs-modal-content], .modal_content",
+    overlay: "[data-rs-modal-overlay]",
+    content: "[data-rs-modal-content]",
   };
+
 
   const STATE = {
     open: "is-open",
