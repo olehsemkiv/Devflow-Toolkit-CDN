@@ -1,0 +1,64 @@
+/* Base hidden state */
+.modal {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 250ms ease, visibility 0s linear 250ms;
+}
+
+.modal.is-open {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity 250ms ease, visibility 0s;
+}
+
+/* Content animation base */
+.modal .modal_content,
+.modal [data-rs-modal-content] {
+  opacity: 0;
+  transform: translate3d(0, 0, 0);
+  transition: transform 320ms ease, opacity 320ms ease;
+}
+
+.modal.is-open .modal_content,
+.modal.is-open [data-rs-modal-content] {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Default anim if none provided = fade (no transform) */
+.modal:not([data-rs-modal-anim]) .modal_content,
+.modal:not([data-rs-modal-anim]) [data-rs-modal-content] {
+  transform: none;
+}
+
+/* bottom */
+.modal[data-rs-modal-anim="bottom"] .modal_content,
+.modal[data-rs-modal-anim="bottom"] [data-rs-modal-content] {
+  transform: translate3d(0, 24px, 0);
+}
+
+/* top */
+.modal[data-rs-modal-anim="top"] .modal_content,
+.modal[data-rs-modal-anim="top"] [data-rs-modal-content] {
+  transform: translate3d(0, -24px, 0);
+}
+
+/* left */
+.modal[data-rs-modal-anim="left"] .modal_content,
+.modal[data-rs-modal-anim="left"] [data-rs-modal-content] {
+  transform: translate3d(-24px, 0, 0);
+}
+
+/* right */
+.modal[data-rs-modal-anim="right"] .modal_content,
+.modal[data-rs-modal-anim="right"] [data-rs-modal-content] {
+  transform: translate3d(24px, 0, 0);
+}
+
+/* scale */
+.modal[data-rs-modal-anim="scale"] .modal_content,
+.modal[data-rs-modal-anim="scale"] [data-rs-modal-content] {
+  transform: scale(0.96);
+}

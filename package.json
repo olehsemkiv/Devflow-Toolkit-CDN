@@ -1,0 +1,17 @@
+{
+  "name": "rs-toolkit",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "rollup -c && shx mkdir -p dist/css && shx cp src/styles/modal.css dist/css/rs-modal.css",
+    "dev": "rollup -c -w"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^28.0.2",
+    "@rollup/plugin-node-resolve": "^16.0.0",
+    "@rollup/plugin-terser": "^0.4.4",
+    "rollup": "^4.29.1",
+    "shx": "^0.3.4"
+  }
+}
