@@ -55,7 +55,6 @@
   transform: translate3d(0, 0, 0);
 }
 
-/* Default (якщо anim нема) = просто fade */
 [data-rs-modal]:not([data-rs-modal-anim]) [data-rs-modal-content] {
   transform: none;
 }
