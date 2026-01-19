@@ -20,28 +20,42 @@
   transition: transform 320ms ease, opacity 320ms ease;
 }
 
-/* CLOSED state transforms by animation type */
-[data-rs-modal]:not(.is-open)[data-rs-modal-anim="bottom"] [data-rs-modal-content] {
+/* Open state (opacity) */
+[data-rs-modal].is-open [data-rs-modal-content] {
+  opacity: 1;
+}
+
+/* CLOSED transforms by anim */
+[data-rs-modal][data-rs-modal-anim="bottom"] [data-rs-modal-content] {
   transform: translate3d(0, 24px, 0);
 }
 
-[data-rs-modal]:not(.is-open)[data-rs-modal-anim="top"] [data-rs-modal-content] {
+[data-rs-modal][data-rs-modal-anim="top"] [data-rs-modal-content] {
   transform: translate3d(0, -24px, 0);
 }
 
-[data-rs-modal]:not(.is-open)[data-rs-modal-anim="left"] [data-rs-modal-content] {
+[data-rs-modal][data-rs-modal-anim="left"] [data-rs-modal-content] {
   transform: translate3d(-24px, 0, 0);
 }
 
-[data-rs-modal]:not(.is-open)[data-rs-modal-anim="right"] [data-rs-modal-content] {
+[data-rs-modal][data-rs-modal-anim="right"] [data-rs-modal-content] {
   transform: translate3d(24px, 0, 0);
 }
 
-[data-rs-modal]:not(.is-open)[data-rs-modal-anim="scale"] [data-rs-modal-content] {
+[data-rs-modal][data-rs-modal-anim="scale"] [data-rs-modal-content] {
   transform: scale(0.96);
 }
 
-[data-rs-modal].is-open [data-rs-modal-content] {
-  opacity: 1;
+/* OPEN overrides by anim (ставимо НИЖЧЕ, щоб точно перебити) */
+[data-rs-modal].is-open[data-rs-modal-anim="bottom"] [data-rs-modal-content],
+[data-rs-modal].is-open[data-rs-modal-anim="top"] [data-rs-modal-content],
+[data-rs-modal].is-open[data-rs-modal-anim="left"] [data-rs-modal-content],
+[data-rs-modal].is-open[data-rs-modal-anim="right"] [data-rs-modal-content],
+[data-rs-modal].is-open[data-rs-modal-anim="scale"] [data-rs-modal-content] {
   transform: translate3d(0, 0, 0);
+}
+
+/* Default (якщо anim нема) = просто fade */
+[data-rs-modal]:not([data-rs-modal-anim]) [data-rs-modal-content] {
+  transform: none;
 }
