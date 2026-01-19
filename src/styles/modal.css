@@ -46,7 +46,6 @@
   transform: scale(0.96);
 }
 
-/* OPEN overrides by anim (ставимо НИЖЧЕ, щоб точно перебити) */
 [data-rs-modal].is-open[data-rs-modal-anim="bottom"] [data-rs-modal-content],
 [data-rs-modal].is-open[data-rs-modal-anim="top"] [data-rs-modal-content],
 [data-rs-modal].is-open[data-rs-modal-anim="left"] [data-rs-modal-content],
