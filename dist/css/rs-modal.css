@@ -13,10 +13,10 @@
   transition: opacity 250ms ease, visibility 0s;
 }
 
-/* Content base animation */
+/* Content base */
 [data-rs-modal] [data-rs-modal-content] {
   opacity: 0;
-  transform: translate3d(0, 0, 0);
+  transform: none;
   transition: transform 320ms ease, opacity 320ms ease;
 }
 
@@ -25,32 +25,23 @@
   transform: translate3d(0, 0, 0);
 }
 
-/* Default = fade (no transform) */
-[data-rs-modal]:not([data-rs-modal-anim]) [data-rs-modal-content] {
-  transform: none;
-}
-
-/* bottom */
-[data-rs-modal][data-rs-modal-anim="bottom"] [data-rs-modal-content] {
+/* CLOSED state transforms by animation type */
+[data-rs-modal]:not(.is-open)[data-rs-modal-anim="bottom"] [data-rs-modal-content] {
   transform: translate3d(0, 24px, 0);
 }
 
-/* top */
-[data-rs-modal][data-rs-modal-anim="top"] [data-rs-modal-content] {
+[data-rs-modal]:not(.is-open)[data-rs-modal-anim="top"] [data-rs-modal-content] {
   transform: translate3d(0, -24px, 0);
 }
 
-/* left */
-[data-rs-modal][data-rs-modal-anim="left"] [data-rs-modal-content] {
+[data-rs-modal]:not(.is-open)[data-rs-modal-anim="left"] [data-rs-modal-content] {
   transform: translate3d(-24px, 0, 0);
 }
 
-/* right */
-[data-rs-modal][data-rs-modal-anim="right"] [data-rs-modal-content] {
+[data-rs-modal]:not(.is-open)[data-rs-modal-anim="right"] [data-rs-modal-content] {
   transform: translate3d(24px, 0, 0);
 }
 
-/* scale */
-[data-rs-modal][data-rs-modal-anim="scale"] [data-rs-modal-content] {
+[data-rs-modal]:not(.is-open)[data-rs-modal-anim="scale"] [data-rs-modal-content] {
   transform: scale(0.96);
 }
