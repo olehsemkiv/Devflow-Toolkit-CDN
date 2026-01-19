@@ -21,12 +21,21 @@
     return Number.isFinite(n) ? n : 0;
   }
 
+  function getTriggerMode(item) {
+    // "item" (default) або "head"
+    return (
+      item.getAttribute("data-rs-accordion-trigger") ||
+      item.closest("[data-rs-accordion-trigger]")?.getAttribute("data-rs-accordion-trigger") ||
+      "item"
+    );
+  }
+
   function setPanelHeight(item) {
     const panel = item.querySelector(SEL.panel);
     if (!panel) return;
 
     const offset = getOffset(item);
-    panel.style.maxHeight = (panel.scrollHeight + offset) + "px";
+    panel.style.maxHeight = panel.scrollHeight + offset + "px";
   }
 
   function closeItem(item) {
@@ -38,7 +47,6 @@
     head?.classList.remove("is-open");
     panel.classList.remove("is-open");
 
-    // Animate to 0
     panel.style.maxHeight = "0px";
 
     window.RS.emit?.("rs:accordion:close", { item });
@@ -61,19 +69,22 @@
   function toggleItem(item) {
     if (item.classList.contains("is-open")) {
       closeItem(item);
-    } else {
-      // group logic: якщо є group — закриваємо інші open в цій групі
-      const group = item.getAttribute("data-rs-accordion-group");
-      if (group) {
-        document
-          .querySelectorAll(`${SEL.item}[data-rs-accordion-group="${CSS.escape(group)}"].is-open`)
-          .forEach((el) => {
-            if (el !== item) closeItem(el);
-          });
-      }
-
-      openItem(item);
+      return;
     }
+
+    const group = item.getAttribute("data-rs-accordion-group");
+    if (group) {
+      // закриваємо інші відкриті в групі
+      document
+        .querySelectorAll(
+          `${SEL.item}[data-rs-accordion-group="${CSS.escape(group)}"].is-open`
+        )
+        .forEach((el) => {
+          if (el !== item) closeItem(el);
+        });
+    }
+
+    openItem(item);
   }
 
   function initDefaults() {
@@ -81,13 +92,13 @@
       const openAttr = item.getAttribute("data-rs-accordion-open");
       const shouldOpen = item.classList.contains("is-open") || openAttr === "true";
 
+      const head = item.querySelector(SEL.head);
       const panel = item.querySelector(SEL.panel);
       if (!panel) return;
 
       if (shouldOpen) {
-        // ensure state + height
         item.classList.add("is-open");
-        item.querySelector(SEL.head)?.classList.add("is-open");
+        head?.classList.add("is-open");
         panel.classList.add("is-open");
         setPanelHeight(item);
       } else {
@@ -97,18 +108,39 @@
   }
 
   function bindEvents() {
+    const INTERACTIVE = "a,button,input,textarea,select,label";
+
     // click
     document.addEventListener("click", (e) => {
-      const head = e.target.closest(SEL.head);
-      if (!head) return;
-
-      const item = head.closest(SEL.item);
+      const item = e.target.closest(SEL.item);
       if (!item) return;
+
+      const mode = getTriggerMode(item);
+
+      // Mode: head only
+      if (mode === "head") {
+        const head = e.target.closest(SEL.head);
+        if (!head || !item.contains(head)) return;
+
+        toggleItem(item);
+        return;
+      }
+
+      // Mode: item (default)
+      // 1) не тогглимо кліки в panel
+      if (e.target.closest(SEL.panel)) return;
+
+      // 2) можна вручну вимкнути toggle на окремих елементах
+      if (e.target.closest("[data-rs-accordion-ignore]")) return;
+
+      // 3) не тогглимо інтерактивні елементи, якщо вони не в head
+      const interactiveEl = e.target.closest(INTERACTIVE);
+      if (interactiveEl && !interactiveEl.closest(SEL.head)) return;
 
       toggleItem(item);
     });
 
-    // optional keyboard (якщо head = div). Не ламає кнопки.
+    // keyboard: працює через head
     document.addEventListener("keydown", (e) => {
       if (e.key !== "Enter" && e.key !== " ") return;
 

@@ -1,3 +1,4 @@
+```html
 <!doctype html>
 <html lang="en">
 
@@ -6,20 +7,25 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>RS Accordion Test</title>
 
-  <!-- Accordion CSS -->
+  <!-- RS Accordion CSS -->
   <link rel="stylesheet" href="./dist/css/rs-accordion.css" />
 
   <style>
     body {
       font-family: system-ui, sans-serif;
       padding: 24px;
-      max-width: 820px;
+      max-width: 920px;
       margin: 0 auto;
     }
 
     h1 {
       font-size: 20px;
       margin: 0 0 16px;
+    }
+
+    h2 {
+      font-size: 14px;
+      margin: 24px 0 10px;
     }
 
     .box {
@@ -33,7 +39,7 @@
       gap: 12px;
     }
 
-    /* Просто для виду у тесті (не RS-стилі) */
+    /* Demo look only (NOT part of RS) */
     [data-rs-accordion-item] {
       border: 1px solid #e5e5e5;
       border-radius: 10px;
@@ -62,13 +68,44 @@
     }
 
     [data-rs-accordion-arrow] {
-      width: 18px;
-      height: 18px;
+      width: 10px;
+      height: 10px;
       border: 2px solid currentColor;
       border-left: 0;
       border-top: 0;
       transform: rotate(45deg);
-      margin-top: 2px;
+      margin-top: 4px;
+    }
+
+    /* To visualize item-click mode better */
+    .hint {
+      margin: 8px 0 0;
+      font-size: 12px;
+      opacity: .7;
+    }
+
+    .chip {
+      display: inline-block;
+      padding: 4px 8px;
+      border: 1px solid #ddd;
+      border-radius: 999px;
+      font-size: 12px;
+      margin-left: 8px;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      background: transparent;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -78,78 +115,132 @@
 
   <div class="box">
     <p style="margin-top:0">
-      Тестуємо:
-      <strong>toggle</strong>, <strong>group single-open</strong>, <strong>default open</strong>,
-      <strong>offset</strong>.
+      Тут 2 режими:
+      <strong>default (item click)</strong> і <strong>trigger=head</strong>.
+      Також тестимо <strong>group</strong>, <strong>default open</strong>, <strong>offset</strong> і
+      <strong>ignore</strong>.
     </p>
 
+    <h2>1) Default режим (клік по item, але panel кліки ігноряться)</h2>
     <div class="stack">
-      <!-- Group: faq-1 (тільки 1 відкритий одночасно) -->
+      <!-- default: item click -->
+      <div data-rs-accordion-item data-rs-accordion-offset="24">
+        <div data-rs-accordion-head tabindex="0" role="button">
+          <div>
+            Item click mode <span class="chip">default</span>
+          </div>
+          <div data-rs-accordion-arrow></div>
+        </div>
+
+        <div data-rs-accordion-panel>
+          <div>
+            <p style="margin:0 0 10px">
+              У цьому режимі ти можеш клікати по всьому item (крім panel) і воно буде тоглитись.
+              У panel кліки не повинні закривати item.
+            </p>
+
+            <p style="margin:0 0 10px">
+              <a href="https://example.com" target="_blank" rel="noreferrer">
+                Link inside panel (НЕ має тоглити)
+              </a>
+            </p>
+
+            <button class="btn" type="button">
+              Button inside panel (НЕ має тоглити)
+            </button>
+
+            <p class="hint">Підказка: клік по head/верхній зоні → toggle. Клік по panel контенту → не toggle.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- default open by attr -->
+      <div data-rs-accordion-item data-rs-accordion-open="true" data-rs-accordion-offset="24">
+        <div data-rs-accordion-head tabindex="0" role="button">
+          <div>
+            Default open <span class="chip">data-rs-accordion-open="true"</span>
+          </div>
+          <div data-rs-accordion-arrow></div>
+        </div>
+
+        <div data-rs-accordion-panel>
+          <div>
+            <p style="margin:0 0 10px">Я відкритий одразу після init.</p>
+
+            <a href="#" data-rs-accordion-ignore>
+              Element with data-rs-accordion-ignore (НЕ має тоглити навіть поза panel)
+            </a>
+
+            <p class="hint">У default режимі, клік по item (не panel) → toggle.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2>2) Head-only режим (trigger=head)</h2>
+    <div class="stack">
+      <div data-rs-accordion-item data-rs-accordion-trigger="head" data-rs-accordion-offset="24">
+        <div data-rs-accordion-head tabindex="0" role="button">
+          <div>
+            Head only <span class="chip">data-rs-accordion-trigger="head"</span>
+          </div>
+          <div data-rs-accordion-arrow></div>
+        </div>
+
+        <div data-rs-accordion-panel>
+          <div>
+            <p style="margin:0 0 10px">
+              Тут toggle тільки по head. Якщо клікнути по рамці/порожньому місцю item (не head) — не повинно
+              відкриватись.
+            </p>
+            <p class="hint">Підказка: клікни по border/item навколо — не toggle. Клікни по head — toggle.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2>3) Group режим (single-open в групі)</h2>
+    <div class="stack">
       <div data-rs-accordion-item data-rs-accordion-group="faq-1" data-rs-accordion-offset="24"
         data-rs-accordion-open="true">
-        <div data-rs-accordion-head tabindex="0" role="button" aria-expanded="true">
-          <div>FAQ 1 (default open + offset 24)</div>
+        <div data-rs-accordion-head tabindex="0" role="button">
+          <div>FAQ 1 <span class="chip">group faq-1</span></div>
           <div data-rs-accordion-arrow></div>
         </div>
         <div data-rs-accordion-panel>
           <div>
-            <p style="margin:0">Я відкритий з самого старту. Якщо відкриєш інший в цій групі — мене закриє.</p>
+            <p style="margin:0">Я відкритий по дефолту. Відкрий FAQ 2 або FAQ 3 — мене закриє.</p>
           </div>
         </div>
       </div>
 
       <div data-rs-accordion-item data-rs-accordion-group="faq-1" data-rs-accordion-offset="24">
-        <div data-rs-accordion-head tabindex="0" role="button" aria-expanded="false">
-          <div>FAQ 2 (same group faq-1)</div>
+        <div data-rs-accordion-head tabindex="0" role="button">
+          <div>FAQ 2 <span class="chip">group faq-1</span></div>
           <div data-rs-accordion-arrow></div>
         </div>
         <div data-rs-accordion-panel>
           <div>
-            <p style="margin:0">Я у тій самій групі. Відкриєш мене — FAQ 1 закриється.</p>
+            <p style="margin:0">Відкрий мене — FAQ 1 закриється.</p>
           </div>
         </div>
       </div>
 
       <div data-rs-accordion-item data-rs-accordion-group="faq-1" data-rs-accordion-offset="24">
-        <div data-rs-accordion-head tabindex="0" role="button" aria-expanded="false">
-          <div>FAQ 3 (same group faq-1)</div>
+        <div data-rs-accordion-head tabindex="0" role="button">
+          <div>FAQ 3 <span class="chip">group faq-1</span></div>
           <div data-rs-accordion-arrow></div>
         </div>
         <div data-rs-accordion-panel>
           <div>
-            <p style="margin:0">Третій у групі. Також має закривати попередній.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Без групи (можна відкривати кілька одночасно) -->
-      <div data-rs-accordion-item>
-        <div data-rs-accordion-head tabindex="0" role="button" aria-expanded="false">
-          <div>Independent 1 (no group)</div>
-          <div data-rs-accordion-arrow></div>
-        </div>
-        <div data-rs-accordion-panel>
-          <div>
-            <p style="margin:0">Я не в групі — можна тримати відкритим разом з іншими.</p>
-          </div>
-        </div>
-      </div>
-
-      <div data-rs-accordion-item>
-        <div data-rs-accordion-head tabindex="0" role="button" aria-expanded="false">
-          <div>Independent 2 (no group)</div>
-          <div data-rs-accordion-arrow></div>
-        </div>
-        <div data-rs-accordion-panel>
-          <div>
-            <p style="margin:0">Ще один незалежний. Відкривай обидва — мають лишатись відкритими.</p>
+            <p style="margin:0">Також закриваю попередній відкритий в групі.</p>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Core + Accordion module -->
+  <!-- RS Core + Accordion module -->
   <script src="./dist/rs-core.min.js"></script>
   <script src="./dist/modules/rs-accordion.min.js"></script>
 
@@ -159,3 +250,4 @@
 </body>
 
 </html>
+```
