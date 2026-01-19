@@ -1,0 +1,26 @@
+/* Panel базово схований */
+[data-rs-accordion-panel] {
+  overflow: hidden;
+  max-height: 0px;
+  transition: max-height 320ms ease;
+}
+
+/* Якщо хочеш — можна додати легкий fade (опційно) */
+/*
+[data-rs-accordion-panel] {
+  opacity: 0;
+  transition: max-height 320ms ease, opacity 200ms ease;
+}
+[data-rs-accordion-item].is-open [data-rs-accordion-panel] {
+  opacity: 1;
+}
+*/
+
+/* Arrow rotate приклад (опційно) */
+[data-rs-accordion-arrow] {
+  transition: transform 250ms ease;
+}
+
+[data-rs-accordion-item].is-open [data-rs-accordion-arrow] {
+  transform: rotate(180deg);
+}

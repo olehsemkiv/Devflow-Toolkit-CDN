@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "rollup -c && shx mkdir -p dist/css && shx cp src/styles/modal.css dist/css/rs-modal.css",
+    "build": "rollup -c && shx mkdir -p dist/css && shx cp src/styles/*.css dist/css/",
     "dev": "rollup -c -w"
   },
   "devDependencies": {

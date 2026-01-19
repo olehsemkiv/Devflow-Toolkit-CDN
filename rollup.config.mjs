@@ -31,6 +31,18 @@ export default [
     },
     plugins,
   },
+  // MODULE: ACCODRION (requires core included first)
+
+  {
+    input: "src/modules/accordion.js",
+    output: {
+      file: "dist/modules/rs-accordion.min.js",
+      format: "iife",
+      sourcemap: true,
+    },
+    plugins,
+  },
+
 
   // TOOLKIT (core + all modules)
   {
