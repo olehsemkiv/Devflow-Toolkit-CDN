@@ -20,11 +20,6 @@
   transition: transform 320ms ease, opacity 320ms ease;
 }
 
-[data-rs-modal].is-open [data-rs-modal-content] {
-  opacity: 1;
-  transform: translate3d(0, 0, 0);
-}
-
 /* CLOSED state transforms by animation type */
 [data-rs-modal]:not(.is-open)[data-rs-modal-anim="bottom"] [data-rs-modal-content] {
   transform: translate3d(0, 24px, 0);
@@ -44,4 +39,9 @@
 
 [data-rs-modal]:not(.is-open)[data-rs-modal-anim="scale"] [data-rs-modal-content] {
   transform: scale(0.96);
+}
+
+[data-rs-modal].is-open [data-rs-modal-content] {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
 }
